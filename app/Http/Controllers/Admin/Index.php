@@ -11,7 +11,6 @@ class Index extends Base
 {
 
     public function index(){
-        return 123;
         return view('admin.index.index');
     }
 
