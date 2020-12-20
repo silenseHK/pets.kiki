@@ -16,6 +16,8 @@ class Token
 
     protected $openid = '';
 
+    protected $error = '';
+
     /**
      * @var string
      */
@@ -24,6 +26,15 @@ class Token
     protected $salt = 'pets';
 
     protected $expire = 7 * 24 * 60 * 60;  //7天有效期
+
+    public function getError(){
+        return $this->error;
+    }
+
+    protected function setError($error){
+        $this->error = $error;
+        return false;
+    }
 
     /**
      * 设置token
@@ -44,6 +55,22 @@ class Token
      */
     protected function makeToken(){
         $this->token = sha1(md5($this->openid . $this->salt) . $this->salt);
+    }
+
+    /**
+     * 检查用户登录
+     * @param bool $isForce
+     * @return bool|null|string
+     */
+    public function getUser($isForce=true){
+        $token = str_filter(request('token',''));
+        if(!$token)
+            return $this->setError("未传入参数token");
+        $redis = (new Engine())->render();
+        $user = $redis->get($token);
+        if(!$user && $isForce)
+            return $this->setError("请重新登录");
+        return $user?json_decode($user, true):$user;
     }
 
 }

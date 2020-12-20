@@ -13,6 +13,15 @@ function returnError($code=100, $msg='', $url='', $data=[]){
     return response()->json(compact('code','msg','url','data'));
 }
 
+function returnFail(Exception $e){
+    \Illuminate\Support\Facades\Log::error("ç³»ç»Ÿå†…éƒ¨é”™è¯¯",[
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'err'  => $e->getMessage()
+    ]);
+    return request()->json(['code'=>0, 'msg'=>'ç³»ç»Ÿå†…éƒ¨é”™è¯¯']);
+}
+
 function curlPost($url, $data=[]){
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL, $url);
@@ -30,30 +39,30 @@ function curlGet($url){
         'Accept: application/json',
     );
     $curl = curl_init();
-    //ÉèÖÃ×¥È¡µÄurl
+    //è®¾ç½®æŠ“å–çš„url
     curl_setopt($curl, CURLOPT_URL, $url);
-    //ÉèÖÃÍ·ÎÄ¼şµÄĞÅÏ¢×÷ÎªÊı¾İÁ÷Êä³ö
+    //è®¾ç½®å¤´æ–‡ä»¶çš„ä¿¡æ¯ä½œä¸ºæ•°æ®æµè¾“å‡º
     curl_setopt($curl, CURLOPT_HEADER, 0);
-    // ³¬Ê±ÉèÖÃ,ÒÔÃëÎªµ¥Î»
+    // è¶…æ—¶è®¾ç½®,ä»¥ç§’ä¸ºå•ä½
     curl_setopt($curl, CURLOPT_TIMEOUT, 1);
 
-    // ³¬Ê±ÉèÖÃ£¬ÒÔºÁÃëÎªµ¥Î»
+    // è¶…æ—¶è®¾ç½®ï¼Œä»¥æ¯«ç§’ä¸ºå•ä½
     // curl_setopt($curl, CURLOPT_TIMEOUT_MS, 500);
 
-    // ÉèÖÃÇëÇóÍ·
+    // è®¾ç½®è¯·æ±‚å¤´
     curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-    //ÉèÖÃ»ñÈ¡µÄĞÅÏ¢ÒÔÎÄ¼şÁ÷µÄĞÎÊ½·µ»Ø£¬¶ø²»ÊÇÖ±½ÓÊä³ö¡£
+    //è®¾ç½®è·å–çš„ä¿¡æ¯ä»¥æ–‡ä»¶æµçš„å½¢å¼è¿”å›ï¼Œè€Œä¸æ˜¯ç›´æ¥è¾“å‡ºã€‚
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-    //Ö´ĞĞÃüÁî
+    //æ‰§è¡Œå‘½ä»¤
     $data = curl_exec($curl);
 
-    // ÏÔÊ¾´íÎóĞÅÏ¢
+    // æ˜¾ç¤ºé”™è¯¯ä¿¡æ¯
     if (curl_error($curl)) {
         return false;
     } else {
-        // ´òÓ¡·µ»ØµÄÄÚÈİ
+        // æ‰“å°è¿”å›çš„å†…å®¹
         curl_close($curl);
         return $data;
     }

@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 Route::apiResource('article','Api\Article');
 
 /**
- * µêÆÌ
+ * åº—é“º
  */
 Route::apiResource('store','Api\Store');
 
@@ -28,4 +28,5 @@ Route::apiResource('user','Api\User')->except(['create', 'store', 'index']);
 
 Route::namespace('Api')->prefix('user')->group(function(){
     Route::post('login','User@login');
+    Route::post('mobile','User@bindMobile');
 });

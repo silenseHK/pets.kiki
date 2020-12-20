@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Repository\Api\UserRepo;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class User extends Controller
+class User extends Base
 {
 
     protected $repo;
@@ -25,8 +24,7 @@ class User extends Controller
             }
             return returnSuccess($data);
         }catch(\Exception $e){
-//            return returnError(0,$e->getMessage())
-            echo $e->getMessage();
+            return returnFail($e);
         }
     }
 
@@ -36,10 +34,17 @@ class User extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
-        echo $id;
+        try{
+            $user = $this->getUser();
+            if(!$user){
+                return returnError(101,'请先登录');
+            }
+            return returnSuccess($user);
+        }catch(\Exception $e){
+            return returnFail($e);
+        }
     }
 
     /**
@@ -74,5 +79,14 @@ class User extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function bindMobile(){
+        try{
+            $messageEngine = new \App\Libraries\wx\Message();
+            $messageEngine->send();
+        }catch(\Exception $e){
+            return returnFail($e);
+        }
     }
 }

@@ -18,7 +18,8 @@
         "mews/captcha": "~2.0",
         "php-amqplib/php-amqplib": "^2.12",
         "swoole/ide-helper": "~4.4.7",
-        "swooletw/laravel-swoole": "^2.6"
+        "swooletw/laravel-swoole": "^2.6",
+        "tencentcloud/tencentcloud-sdk-php": "^3.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

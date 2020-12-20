@@ -16,7 +16,7 @@ class Engine
 
     protected $config = [
         'scheme' => 'tcp',
-        'host' => '127.0.0.1',
+        'host' => '119.27.174.111',
         'port' => 6379,
         'pwd' => 'wangjiweilai666'
     ];

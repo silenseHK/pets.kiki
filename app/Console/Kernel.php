@@ -27,15 +27,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        // $schedule->job(new HeartBeat())->everyMinute();
-        // $schedule->call(function(){
-            // file_put_contents("test_task.txt","\r\n " . date("Y-m-d H:i:s") . "这里是task",FILE_APPEND);
-        // })->everyMinute();
-        // $schedule->call(function(){
-            // file_put_contents("test_task.txt","\r\n " . date("Y-m-d H:i:s") . "这里是task2",FILE_APPEND);
-        // })->everyMinute();
-        // $schedule->command('App\Console\Commands\TestCommand')->everyMinute()->withoutOverlapping()->runInBackground();
-        // $schedule->command('Test')->everyMinute()->withoutOverlapping()->runInBackground();
+        $schedule->call(function(){
+            file_put_contents("test_task.txt","\r\n " . date("Y-m-d H:i:s") . "这里是task",FILE_APPEND);
+        })->everyMinute();
+//        $schedule->job(new HeartBeat())->everyMinute();
+        $schedule->command('App\Console\Commands\TestCommand')->everyMinute()->withoutOverlapping()->runInBackground();
     }
 
     /**
